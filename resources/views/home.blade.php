@@ -44,38 +44,30 @@
               </tr>
             </thead>
             <tbody>
-              @php
-              $i=1;
-              @endphp
               @foreach ($lists as $list)    
               <tr>
-                <td>{{$i}}</td>
+                <td>{{$list->id}}</td>
                 <td>{{$list->title}}</td>
                 <td>{{$list->details}}</td>
-                <td>{{$list->time}}</td>
+                <td>{{ date('d/m/y h:i A', strtotime($list->time)) }}</td>
                 <td>
                   <span class="badge bg-success {{$list->status ? 'bg-success' : 'bg-danger'}}">{{$list->status ? 'Done' : 'Pending'}}</span>
                 </td>
                 <td>
                   <a href="{{url('/statusDone/'.$list->id)}}" class="btn btn-sm btn-success bi bi-check2-square"></a>
                   <a href="{{url('/statusPending/'.$list->id)}}" class="btn btn-sm btn-warning bi bi-x-square"></a>
-                  <button class="btn btn-sm btn-primary bi bi-pencil-square"></button>
+                  <button class="update btn btn-sm btn-primary bi bi-pencil-square"></button>
                   <a href="{{url('/deleteList/'.$list->id)}}" class="btn btn-sm btn-danger bi bi-trash"></a>
                 </td>
               </tr>
-              @php
-              $i++;
-              @endphp
               @endforeach
             </tbody>
           </table>
-          <div class="">
-            {{$lists->links()}}
-          </div>
+          
+          {{$lists->links()}}
     </div>
-    
 
-    <!-- Modal -->
+<!-- Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content p-4 bg-dark">
@@ -87,6 +79,7 @@
       <div class="modal-body">
         <form action="{{url('/addlist')}}" method="post">
           @csrf
+          <input type="hidden" name="id" id="id">
           <div class="form-floating mb-3">
             <input type="text" name="title" class="form-control" id="title" placeholder="Work Title" required>
             <label for="title">Work Title</label>
@@ -107,8 +100,26 @@
     </div>
   </div>
 </div>
-    
-  <script src="{{asset('js/bootstrap.min.js')}}"></script>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script>
+
+  updates = document.getElementsByClassName('update');
+  Array.from(updates).forEach((element) => {
+      element.addEventListener("click", (e) => {
+          tr = e.target.parentNode.parentNode;
+
+          id.value = tr.getElementsByTagName("td")[0].innerText;
+          title.value = tr.getElementsByTagName("td")[1].innerText;
+          details.value = tr.getElementsByTagName("td")[2].innerText;
+          time.value = tr.getElementsByTagName("td")[3].innerText;
+
+          $('#addModal').modal('toggle');
+      })
+  })
+</script>
+
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
 </body>
 
 </html>
