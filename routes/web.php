@@ -27,5 +27,6 @@ Route::get('/statusDone/{id}', [ ListController ::class, 'statusDone']);
 Route::get('/statusPending/{id}', [ ListController ::class, 'statusPending']);
 Route::get('/deleteList/{id}', [ ListController ::class, 'deleteList']);
 Route::post('/addlist', [ ListController ::class, 'store']);
+Route::post('/search', [ ListController ::class, 'search']);
 
 

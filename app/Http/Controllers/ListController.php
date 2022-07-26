@@ -15,6 +15,13 @@ class ListController extends Controller
         return view('home', compact('lists'));
     }
 
+    public function search(Request $request)
+    {
+        $results = Worklist::where('title','=', $request->search);
+        // return redirect('/', compact('results'));
+        print_r($results);
+    }
+
     public function store(Request $request)
     {
         if (isset($request->id)) {

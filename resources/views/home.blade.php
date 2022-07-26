@@ -31,7 +31,14 @@
             </div>
         @endif
         <h1 class="py-5 text-center text-white">My Work List</h1>
-        <button class="btn btn-warning float-end mb-4" data-bs-toggle="modal" data-bs-target="#addModal">Add New List</button>
+        <button class="btn btn-warning float-end m-2" data-bs-toggle="modal" data-bs-target="#addModal">Add New List</button>
+        <form action="{{url('/search')}}" method="post" class="col-lg-6 float-end m-2">
+          @csrf
+          <div class="input-group ">
+            <input type="text" name="search" class="form-control " aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button class="btn btn-warning search" type="submit" id="search">Search</button>
+          </div>
+        </form>
         <table class="table border table-dark text-white table-responsive text-wrap">
             <thead class="table-warning">
               <tr>
