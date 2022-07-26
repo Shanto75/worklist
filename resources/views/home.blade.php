@@ -24,6 +24,22 @@
     </nav>
 
     <div class="container overflow-auto">
+        @if (session()->has('results') )
+        <h5 class="py-2 text-white">Search Results</h5>
+        @php
+            $results = session()->get('results');
+        @endphp
+        @foreach ($results as $result)    
+          <div class="text-white m-2 p-2">
+            <h5>Result for {{ $result->title }}</h5>
+            <p>Id: {{ $result->id }}</p>
+            <p>Details: {{ $result->details }}</p>
+            <p>Date and Time: {{ date('d/m/y h:i A', strtotime($result->time)) }}</p>
+            <p>Status: <span class="badge bg-success {{$result->status ? 'bg-success' : 'bg-danger'}}">{{$result->status ? 'Done' : 'Pending'}}</span></p>
+          </div>
+        @endforeach
+        
+        @endif
         @if (session()->has('message'))    
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 <h6 class="text-center"><strong>{{ session()->get('message') }}</strong></h6>
@@ -35,7 +51,7 @@
         <form action="{{url('/search')}}" method="post" class="col-lg-6 float-end m-2">
           @csrf
           <div class="input-group ">
-            <input type="text" name="search" class="form-control " aria-label="Recipient's username" aria-describedby="button-addon2">
+            <input type="text" name="search" class="form-control" placeholder="Search with work title" aria-label="Recipient's username" aria-describedby="button-addon2">
             <button class="btn btn-warning search" type="submit" id="search">Search</button>
           </div>
         </form>

@@ -11,15 +11,14 @@ class ListController extends Controller
     public function index()
     {
         $lists = Worklist::latest()->paginate(5);
-
         return view('home', compact('lists'));
     }
 
     public function search(Request $request)
     {
-        $results = Worklist::where('title','=', $request->search);
-        // return redirect('/', compact('results'));
-        print_r($results);
+        $results = Worklist::where('title','like',"%{$request->search}%")
+                            ->orWhere('details','like',"%{$request->search}%")->get();
+        return redirect('/')->with('results', $results);
     }
 
     public function store(Request $request)
